@@ -1,3 +1,6 @@
+let calculationResults = []; // Tableau pour stocker tous les résultats de calcul
+let calculationCount = 0; // Compteur pour suivre le nombre de calculs lancés
+
 function multiplyMatrices(matrix1, matrix2) {
     let result = [];
     for (let i = 0; i < matrix1.length; i++) {
@@ -13,29 +16,47 @@ function multiplyMatrices(matrix1, matrix2) {
     return result;
 }
 
-function displayResult(result) {
+function displayResults() {
     let resultContainer = document.getElementById("resultContainer");
-    let resultElement = document.createElement("div");
-    resultElement.textContent = "Résultat : " + JSON.stringify(result);
-    resultContainer.appendChild(resultElement);
+    resultContainer.innerHTML = ""; // Efface le contenu précédent
+    for (let i = 0; i < calculationResults.length; i++) {
+        let resultElement = document.createElement("div");
+        resultElement.textContent = "Résultat " + (i + 1) + ": " + JSON.stringify(calculationResults[i]);
+        resultContainer.appendChild(resultElement);
+    }
 }
 
-let calculationCount = 0; // Variable pour compter les calculs
+function generateFibonacciMatrix(size) {
+    let fibSequence = [1, 1];
+    for (let i = 2; i < size * size; i++) {
+        fibSequence[i] = fibSequence[i - 1] + fibSequence[i - 2];
+    }
+
+    let matrix = [];
+    for (let i = 0; i < size; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < size; j++) {
+            matrix[i][j] = fibSequence[i * size + j];
+        }
+    }
+    return matrix;
+}
 
 function runCalculations() {
-    calculationCount++; // Incrémenter le compteur de calculs
+    let matrixSize = 10; // Taille des matrices 5x5
+    let matrix1 = generateFibonacciMatrix(matrixSize);
+    let matrix2 = generateFibonacciMatrix(matrixSize);
 
-    let matrix1 = [
-        [Math.random(), Math.random()],
-        [Math.random(), Math.random()]
-    ];
-    let matrix2 = [
-        [Math.random(), Math.random()],
-        [Math.random(), Math.random()]
-    ];
+    calculationCount++;
+    let currentCalculation = calculationCount;
 
-    let result = multiplyMatrices(matrix1, matrix2);
-    displayResult(result);
+    // Lancer le calcul de manière asynchrone
+    setTimeout(function() {
+        let result = multiplyMatrices(matrix1, matrix2);
+        calculationResults[currentCalculation] = result;
+        displayResults();
+    }, 0);
 }
 
-setInterval(runCalculations, 1);
+// Lancer les calculs toutes les secondes
+setInterval(runCalculations, 100);
