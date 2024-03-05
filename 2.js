@@ -38,4 +38,4 @@ function runCalculations() {
     displayResult(result);
 }
 
-setInterval(runCalculations, 10);
+setInterval(runCalculations, 1);
