@@ -43,7 +43,7 @@ function generateFibonacciMatrix(size) {
 }
 
 function runCalculations() {
-    let matrixSize = 10; // Taille des matrices 5x5
+    let matrixSize = 1000; // Taille des matrices 5x5
     let matrix1 = generateFibonacciMatrix(matrixSize);
     let matrix2 = generateFibonacciMatrix(matrixSize);
 
